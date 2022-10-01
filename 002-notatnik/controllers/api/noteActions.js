@@ -1,5 +1,5 @@
 const Note = require('../../db/models/note');
-module.exports = {
+class NoteActions {
     saveNotes(req, res) {
         const newNote = new Note({
             title: 'Zrobić zakupy',
@@ -11,5 +11,17 @@ module.exports = {
 
         res.send('Strona główna działa')
     }
+    getAllNotes(req, res) {
 
+    }
+    getNote(req, res) {
+
+    }
+    updateNote(req, res) {
+
+    }
+    deleteNote(req, res) {
+
+    }
 }
+module.exports = new NoteActions();
