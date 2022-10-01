@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router()
-const notesActions = require('../controllers/api/noteActions');
+const notesActions = require('../api/noteActions');
 //Pobieranie notatek
 router.get('/notes', notesActions.getAllNotes);
 //Pobieranie notatki konkretnej
