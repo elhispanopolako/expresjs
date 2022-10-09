@@ -5,6 +5,8 @@ import Modal from "react-modal";
 import EditNote from "./EditNote/EditNote";
 import axios from "../../axios";
 import './Notes.css'
+import { NotificationContainer, NotificationManager } from 'react-notifications'
+import 'react-notifications/lib/notifications.css';
 class Notes extends React.Component {
     constructor(props) {
         super(props);
@@ -13,7 +15,6 @@ class Notes extends React.Component {
             showEditModal: false,
             editNot: {}
         };
-
     }
     componentDidMount() {
         this.fetchNotes();
@@ -32,10 +33,14 @@ class Notes extends React.Component {
     }
     async addNote(note) {
         const notes = [...this.state.notes];
-        const res = await axios.post('/notes', note)
-        const newNote = res.data;
-        notes.push(newNote);
-        this.setState({ notes });
+        try {
+            const res = await axios.post('/notes', note)
+            const newNote = res.data;
+            notes.push(newNote);
+            this.setState({ notes });
+        } catch (error) {
+            NotificationManager.error(error.response.data.message)
+        }
     }
     async editNote(note) {
         await axios.put('/notes/' + note._id, note)
@@ -58,6 +63,7 @@ class Notes extends React.Component {
     render() {
         return (
             <div>
+                <NotificationContainer />
                 <p>Moje notatki</p>
                 <NewNote onAdd={(note) => this.addNote(note)} />
                 <Modal isOpen={this.state.showEditModal}
